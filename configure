@@ -3274,6 +3274,9 @@ then
 	*-*-vxworks*)
 	    ac_sys_system=VxWorks
 	    ;;
+	*-*-wasi*)
+	    ac_sys_system=Wasi
+	    ;;
 	*)
 		# for now, limit cross builds to known configurations
 		MACHDEP="unknown"
@@ -3323,6 +3326,9 @@ if test "$cross_compiling" = yes; then
 		;;
 	*-*-vxworks*)
 		_host_cpu=$host_cpu
+		;;
+	*-*-wasi*)
+		_host_cpu=
 		;;
 	*)
 		# for now, limit cross builds to known configurations
