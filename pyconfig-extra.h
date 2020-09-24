@@ -9,6 +9,7 @@
 #ifndef Py_PYCONFIG_EXTRAS_H
 #define Py_PYCONFIG_EXTRAS_H 
 
+// Switch off some features we know we don't need
 #undef HAVE_MKNOD
 #undef HAVE_DEVICE_MACROS 
 
@@ -19,8 +20,8 @@
 #undef HAVE_UTIMENSAT
 #undef HAVE_SIGACTION
 
+// 32-bit
 #define CONFIG_32
-#define ANSI
 
 #endif
 
