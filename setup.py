@@ -2056,15 +2056,21 @@ class PyBuildExt(build_ext):
                 ffi_inc = None
                 print('Header file {} does not exist'.format(ffi_h))
         ffi_lib = None
+        ffi_libdir = [sysconfig.get_config_var("LIBFFI_LIBDIR")]
+        ffi_libdir = [d for d in ffi_libdir if os.path.isdir(d)]
         if ffi_inc is not None:
             for lib_name in ('ffi', 'ffi_pic'):
-                if (self.compiler.find_library_file(self.lib_dirs, lib_name)):
+                fullpath = self.compiler.find_library_file(self.lib_dirs + ffi_libdir, lib_name)
+                if fullpath:
                     ffi_lib = lib_name
+                    ffi_libdir = os.path.normpath(os.path.dirname(fullpath))
                     break
 
         if ffi_inc and ffi_lib:
             ext.include_dirs.extend(ffi_inc)
             ext.libraries.append(ffi_lib)
+            if ffi_libdir not in self.lib_dirs:
+                ext.library_dirs.append(ffi_libdir)
             self.use_system_libffi = True
 
         if sysconfig.get_config_var('HAVE_LIBDL'):
