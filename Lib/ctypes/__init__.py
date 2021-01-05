@@ -259,6 +259,11 @@ class c_wchar(_SimpleCData):
     _type_ = "u"
 
 def _reset_cache():
+    # Skip this in wasm
+    py_wasm = _os.getenv("PYTHONWASM", "NOT SET")
+    if py_wasm == "1":
+        return
+
     _pointer_type_cache.clear()
     _c_functype_cache.clear()
     if _os.name == "nt":
