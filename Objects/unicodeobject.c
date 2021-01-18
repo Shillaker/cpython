@@ -53,6 +53,10 @@ OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <windows.h>
 #endif
 
+#ifdef __wasm__
+#include <faasm/host_interface.h>
+#endif
+
 /* Uncomment to display statistics on interned strings at exit when
    using Valgrind or Insecure++. */
 /* #define INTERNED_STATS 1 */
@@ -4938,6 +4942,9 @@ unicode_decode_utf8(const char *s, Py_ssize_t size,
             endinpos = end - starts;
             break;
         case 1:
+#ifdef __wasm__
+            __faasm_backtrace(0);
+#endif
             errmsg = "invalid start byte";
             startinpos = s - starts;
             endinpos = startinpos + 1;
@@ -4952,6 +4959,9 @@ unicode_decode_utf8(const char *s, Py_ssize_t size,
             /* fall through */
         case 3:
         case 4:
+#ifdef __wasm__
+            __faasm_backtrace(0);
+#endif
             errmsg = "invalid continuation byte";
             startinpos = s - starts;
             endinpos = startinpos + ch - 1;
@@ -5124,10 +5134,16 @@ _Py_DecodeUTF8Ex(const char *s, Py_ssize_t size, wchar_t **wstr, size_t *wlen,
                             *reason = "unexpected end of data";
                             break;
                         case 1:
+#ifdef __wasm__
+            __faasm_backtrace(0);
+#endif
                             *reason = "invalid start byte";
                             break;
                         /* 2, 3, 4 */
                         default:
+#ifdef __wasm__
+            __faasm_backtrace(0);
+#endif
                             *reason = "invalid continuation byte";
                             break;
                         }
