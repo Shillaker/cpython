@@ -21,7 +21,9 @@
 #undef HAVE_SIGACTION
 
 // 32-bit
+#ifndef CONFIG_32
 #define CONFIG_32
+#endif
 
 #endif
 
