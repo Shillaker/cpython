@@ -6,10 +6,6 @@
 #include "pycore_pymem.h"
 #include "pycore_pystate.h"
 
-#ifdef __faasm
-#include <faasm/host_interface.h>
-#endif
-
 #ifdef __FreeBSD__
 #  include <fenv.h>     /* fedisableexcept() */
 #endif
@@ -115,10 +111,6 @@ stdin_is_interactive(const PyConfig *config)
 static int
 pymain_err_print(int *exitcode_p)
 {
-#ifdef __faasm
-    __faasm_backtrace(0);
-#endif
-
     int exitcode;
     if (_Py_HandleSystemExit(&exitcode)) {
         *exitcode_p = exitcode;
